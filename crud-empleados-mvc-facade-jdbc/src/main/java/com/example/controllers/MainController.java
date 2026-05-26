@@ -39,7 +39,7 @@ public class MainController extends HttpServlet {
 		try {
 			connectionResault = empleadoService.isConnectionOK();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -54,7 +54,7 @@ public class MainController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//
+		
 		
 	}
 

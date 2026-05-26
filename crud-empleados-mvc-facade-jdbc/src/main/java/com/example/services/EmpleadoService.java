@@ -4,5 +4,5 @@ import java.sql.SQLException;
 
 public interface EmpleadoService {
 
-	public abstract boolean isConnectionOK() throws SQLException;
+	public abstract boolean isConnectionOK() throws SQLException, Exception;
 }

@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConexion {
+public class DBConexion implements AutoCloseable {
 
 	private static final Logger LOG = Logger.getLogger("DBConexion");
 
@@ -35,12 +35,18 @@ public class DBConexion {
 			this.connection = DriverManager.getConnection(urlConnection, info);
 			LOG.info("Conexion establecida con exito a la base de datos");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	
 
 		return this.connection;
+	}
+
+	@Override
+	public void close() throws Exception {
+		
+		this.connection.close();
 	}
 
 }
