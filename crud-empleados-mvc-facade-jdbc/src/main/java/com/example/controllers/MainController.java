@@ -6,8 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
+import com.example.models.Empleado;
 import com.example.services.EmpleadoService;
 import com.example.services.EmpleadoServiceImpl;
 
@@ -31,23 +33,16 @@ public class MainController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 
+		// Se eliminó el código para comprobar la conexión y a continuación se creará una conexión con la capa de servicios
 		EmpleadoService empleadoService = new EmpleadoServiceImpl();
 		
-		boolean connectionResault = false;
+		List<Empleado> empleados = empleadoService.getEmpleado();
 		
-		try {
-			connectionResault = empleadoService.isConnectionOK();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+		// El listado de empleados hay que enviarlo como atributo a la vista para que pueda ser renderizado
+		request.setAttribute("empleados", empleados);
+		request.getRequestDispatcher("views/listadoEmpleados.jsp").forward(request, response);
 		
-		if (connectionResault) {
-			LOG.info("Conexion a la base de datos exitosa");
-		} else {
-			LOG.info("Conexion a la base de datos fallida");
-		}
+		
 	}
 
 	/**

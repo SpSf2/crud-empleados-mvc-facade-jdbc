@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBConexion implements AutoCloseable {
 
@@ -48,5 +50,35 @@ public class DBConexion implements AutoCloseable {
 		
 		this.connection.close();
 	}
+	
+	// Método que recupera todos los registros de la tabla empleados
+	public ResultSet getEmpleados(Connection connection) {
+		
+		ResultSet rs= null;
+		String query = "SELECT * FROM `empresa-crud-empleados`.empleados";
+		Statement stmt = null;
+		
+		try {
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
