@@ -69,6 +69,25 @@ public class DBConexion implements AutoCloseable {
 		return rs;
 	}
 	
+	//Metodo de recuperacion de departamentos
+	public ResultSet getDptos(Connection connection) {
+		
+		ResultSet rs = null;
+		String query = "SELECT * FROM `empresa-crud-empleados`.departamentos";
+		Statement stmt = null;
+		
+		try {
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch (SQLException e) {
+			LOG.severe("Error al crear el statement para recuperar los departamentos" + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		
+		return rs;
+	    	
+	}
 
 }
 
