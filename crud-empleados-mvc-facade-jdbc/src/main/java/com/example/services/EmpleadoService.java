@@ -9,4 +9,7 @@ public interface EmpleadoService {
 
 	boolean isConnectionOK() throws SQLException, Exception;
 	List<Empleado> getEmpleado();
+	void altaEmpleado(Empleado empleado, 
+			List<String> emails, 
+			List<String> nTelefonos) throws SQLException;
 }

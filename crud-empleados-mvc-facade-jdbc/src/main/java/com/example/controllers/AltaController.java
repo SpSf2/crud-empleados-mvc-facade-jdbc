@@ -17,6 +17,8 @@ import com.example.models.Empleado;
 import com.example.models.Genero;
 import com.example.services.DepartamentoService;
 import com.example.services.DepartamentoServiceImpl;
+import com.example.services.EmpleadoService;
+import com.example.services.EmpleadoServiceImpl;
 
 /**
  * Servlet implementation class AltaController
@@ -116,6 +118,23 @@ public class AltaController extends HttpServlet {
 				.departamentos_id(departamentoId)
 				.build();
 		
+		//Aqui se debe llamr al servicio para dar de alta el empleado,
+		//pasando el objeto empleado y las listas de correos y telefonos
+		
+		EmpleadoService empleadoService = new EmpleadoServiceImpl();
+		
+		try {
+			empleadoService.altaEmpleado(empleado, 
+					direccionesCorreos, numerosDeTelefonos);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<Empleado> empleados = empleadoService.getEmpleado();
+		request.setAttribute("empleados", empleados);
+		
+		request.getRequestDispatcher("views/listadoEmpleados.jsp").forward(request, response);
 		
 	}
 

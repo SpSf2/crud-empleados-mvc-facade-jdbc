@@ -39,7 +39,7 @@
                    <td><%=empleado.segundoApellido()%></td>
                    <td><%=empleado.fechaAlta()%></td>
                    <td><%=empleado.genero()%></td>
-                   <td><%=empleado.salario()%></td>
+                   <td><%=String.format("%.2f", empleado.salario())%></td>
                </tr>
                <%
                }

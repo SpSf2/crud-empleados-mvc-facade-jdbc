@@ -3,6 +3,7 @@ package com.example.services;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +63,24 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 		}
 		
 		return empleados;
+	}
+
+	@Override
+	public void altaEmpleado(Empleado empleado, 
+			List<String> emails, List<String> nTelefonos) throws SQLException {
+		
+		try (DBConexion dbConexion = new DBConexion("root", "Temp2026");) {
+			Connection connection = dbConexion.getConexion();
+			dbConexion.altaEmpleado(
+					empleado, 
+					emails, 
+					nTelefonos, 
+					connection);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 
 }
