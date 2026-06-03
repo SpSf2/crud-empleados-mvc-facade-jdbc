@@ -40,7 +40,7 @@
                    <td><%=empleado.fechaAlta()%></td>
                    <td><%=empleado.genero()%></td>
                    <td><%=String.format("%.2f", empleado.salario())%></td>
-               </tr>
+                   <td><a href="DetallesController?idEmpleado=<%=empleado.id() %>">Detalles</a></td>
                <%
                }
                %>

@@ -5,17 +5,22 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import com.example.dao.DBConexion;
+import com.example.models.Detalle;
 import com.example.models.Empleado;
 import com.example.models.Genero;
 
 public class EmpleadoServiceImpl implements EmpleadoService {
 
+	private static final Logger LOG = Logger.getLogger("EmpleadoServiceImpl");
 	@Override
 	public boolean isConnectionOK() throws Exception {
-
+		
 		
 		
 		boolean connectionOK = false;
@@ -81,6 +86,44 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public Detalle detalles(int idEmpleado) {
+
+		Detalle detalles = null;
+		
+		try (DBConexion dbConexion = new DBConexion("root", "Temp2026");) {
+			Connection connection = dbConexion.getConexion();
+			
+			ResultSet rs = dbConexion.detallesEmpleado(idEmpleado, connection);
+			
+			/*Para recuperar los datos del record Detalle hay que recorrerlo*/
+			// Declaramos las variables
+			String nombreDpto = null;
+			
+			if (rs.next()) {
+				nombreDpto = rs.getString("nombreDpto");
+			}
+			
+			Set<String> numerosTelefonos = new HashSet<String>();
+			while (rs.next()) {
+				numerosTelefonos.add(rs.getString("numeroTelefono"));
+			}
+			
+			Set<String> emails = new HashSet<String>();
+			while (rs.next()) {
+				emails.add(rs.getString("email"));
+			}
+			
+			detalles = new Detalle(nombreDpto, emails, numerosTelefonos);
+		} catch (Exception e) {
+			
+			LOG.severe("Error al recuperar los detalles del empleado en la capa de servicios " + idEmpleado + " " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return detalles;
 	}
 
 }

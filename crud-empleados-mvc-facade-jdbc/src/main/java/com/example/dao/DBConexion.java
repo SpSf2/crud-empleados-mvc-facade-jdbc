@@ -216,7 +216,7 @@ public class DBConexion implements AutoCloseable {
 		 e.printStackTrace();
 		 
 		 connection.rollback();
-		 LOG.info("Transaiion revertida, no se ha insetado el nuevo empleado");
+		 LOG.info("Transaccion revertida, no se ha insertado el nuevo empleado");
 		 
 	 }finally {
 		 
@@ -225,6 +225,37 @@ public class DBConexion implements AutoCloseable {
 	 }
 	 
 	 }
+	
+	/*Metodo que recupera los detalles (nombre de depto, telefonos,correos) de un empleado cuyo id se 
+	 * recibe como parámetro**/
+	
+	public ResultSet detallesEmpleado(int idEmpleado, Connection connection) {
+		
+		ResultSet rs = null;
+		String query = "select dep.nombre nombreDpto, tel.numero numeroTelefono, cor.email email\r\n"
+				+ "	from empleados emp left join departamentos dep on\r\n"
+				+ "		emp.departamentos_id = dep.id left join telefonos tel on\r\n"
+				+ "			emp.id = tel.empleados_id left join correos cor on \r\n"
+				+ "				emp.id = cor.empleados_id \r\n"
+				+ "where emp.id = ?";
+		
+		PreparedStatement stmt1 = null;
+		
+		 try {
+			stmt1 = connection.prepareStatement(query);
+			stmt1.setInt(1, idEmpleado);
+			
+			rs = stmt1.executeQuery();
+		} catch (SQLException e) {
+			LOG.severe("Error al recuperar los detalles del empleado con id " + idEmpleado + " y la causa mas probable es: " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		
+		return rs;
+		
+		
+	}
 }	 
 	 
 	
