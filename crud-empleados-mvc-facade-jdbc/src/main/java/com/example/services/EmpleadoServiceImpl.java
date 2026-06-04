@@ -107,16 +107,22 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 			}
 			
 			Set<String> numerosTelefonos = new HashSet<String>();
+			
+			rs.beforeFirst(); // Volvemos al inicio del ResultSet para recorrerlo de nuevo y recuperar los números de teléfono
 			while (rs.next()) {
 				numerosTelefonos.add(rs.getString("numeroTelefono"));
 			}
-			
+			rs.beforeFirst();
 			Set<String> emails = new HashSet<String>();
 			while (rs.next()) {
 				emails.add(rs.getString("email"));
 			}
 			
 			detalles = new Detalle(nombreDpto, emails, numerosTelefonos);
+			
+			// Mostrar el record detalles en la consola
+			LOG.info("Detalle recuperado: " + detalles);
+			
 		} catch (Exception e) {
 			
 			LOG.severe("Error al recuperar los detalles del empleado en la capa de servicios " + idEmpleado + " " + e.getMessage());

@@ -237,12 +237,12 @@ public class DBConexion implements AutoCloseable {
 				+ "		emp.departamentos_id = dep.id left join telefonos tel on\r\n"
 				+ "			emp.id = tel.empleados_id left join correos cor on \r\n"
 				+ "				emp.id = cor.empleados_id \r\n"
-				+ "where emp.id = ?";
+				+ " where emp.id = ?";
 		
 		PreparedStatement stmt1 = null;
 		
 		 try {
-			stmt1 = connection.prepareStatement(query);
+			stmt1 = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			stmt1.setInt(1, idEmpleado);
 			
 			rs = stmt1.executeQuery();
