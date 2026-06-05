@@ -32,7 +32,11 @@
     				
     			}
     		%>
-    		
+    	</ul>	
+    	
+    	<h3>Correos: </h3>
+    	
+    	<ul>
     		<%
     			for (String correo : detalles.emails()) {
     				%>
@@ -40,9 +44,8 @@
     				<%
     				
     			}
-    		%>
-    	
-    	</ul>	
+   		%>
+    	</ul>
     </div>
 
     
