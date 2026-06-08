@@ -41,6 +41,7 @@
                    <td><%=empleado.genero()%></td>
                    <td><%=String.format("%.2f", empleado.salario())%></td>
                    <td><a href="DetallesController?idEmpleado=<%=empleado.id() %>">Detalles</a></td>
+                   <td><a href="UpdateController?idEmpleado=<%=empleado.id() %>">Modificar</a></td>
                <%
                }
                %>

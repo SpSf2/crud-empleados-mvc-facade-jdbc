@@ -64,6 +64,8 @@ public class AltaController extends HttpServlet {
 		//aqui se reciben los datos procedentes de los controles del formulario
 		//Tener en cuenta que toda la información llega en formato String
 		
+		int idEmpleado = Integer.parseInt(request.getParameter("idEmpleado"));
+		
 		String nombre = request.getParameter("nombre");
 		String primerApellido = request.getParameter("primerApellido");
 		String segundoApellido = request.getParameter("segundoApellido") == null ? 
@@ -81,7 +83,7 @@ public class AltaController extends HttpServlet {
 		
 		if (request.getParameter("correos") != null) {
 			String direccionesCorreosRecibidas = request.getParameter("correos");
-			String[] arrayDirCorreosRecibidos = direccionesCorreosRecibidas.split(",");
+			String[] arrayDirCorreosRecibidos = direccionesCorreosRecibidas.split(";");
 			
 			direccionesCorreos = Arrays.asList(arrayDirCorreosRecibidos);
 			
@@ -92,7 +94,7 @@ public class AltaController extends HttpServlet {
 		
 		if (request.getParameter("telefonos") != null) {
 			String numerosTelefonicosRecibidos = request.getParameter("telefonos");
-			String[] arrayNumerosTelefonicosRecibidos = numerosTelefonicosRecibidos.split(",");
+			String[] arrayNumerosTelefonicosRecibidos = numerosTelefonicosRecibidos.split(";");
 			
 			numerosDeTelefonos = Arrays.asList(arrayNumerosTelefonicosRecibidos);
 			
@@ -109,6 +111,7 @@ public class AltaController extends HttpServlet {
 		
 		//Crear el Objeto Empleado
 		Empleado empleado = Empleado.builder()
+				.id(idEmpleado)
 				.nombre(nombre)
 				.primerApellido(primerApellido)
 				.segundoApellido(segundoApellido)
@@ -118,11 +121,15 @@ public class AltaController extends HttpServlet {
 				.departamentos_id(departamentoId)
 				.build();
 		
-		//Aqui se debe llamr al servicio para dar de alta el empleado,
+		//Aqui se debe llamar al servicio para dar de alta el empleado,
 		//pasando el objeto empleado y las listas de correos y telefonos
 		
 		EmpleadoService empleadoService = new EmpleadoServiceImpl();
 		
+		// En dependencia del id del empleado, será u  alta (idEmpleado = 0) o una modificación (idEmpleado != 0),
+		
+		if (idEmpleado == 0) {
+			//Alta de un nuevo empleado
 		try {
 			empleadoService.altaEmpleado(empleado, 
 					direccionesCorreos, numerosDeTelefonos);
@@ -130,6 +137,15 @@ public class AltaController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		} else {
+			// Modificación de empleado
+			empleadoService.updateEmpleado(empleado, 
+					direccionesCorreos, numerosDeTelefonos);
+			
+		}
+		
+
 		
 		List<Empleado> empleados = empleadoService.getEmpleado();
 		request.setAttribute("empleados", empleados);
